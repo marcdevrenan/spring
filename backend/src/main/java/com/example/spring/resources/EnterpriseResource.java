@@ -5,6 +5,7 @@ import com.example.spring.services.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,11 @@ public class EnterpriseResource {
     public ResponseEntity<List<EnterpriseDTO>> findAll() {
         List<EnterpriseDTO> list = enterpriseService.findAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<EnterpriseDTO> findById(@PathVariable Long id) {
+        EnterpriseDTO dto = enterpriseService.findById(id);
+        return ResponseEntity.ok().body(dto);
     }
 }
