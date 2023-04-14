@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "enterprises")
 public class Enterprise implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
