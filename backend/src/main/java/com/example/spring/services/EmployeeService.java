@@ -26,7 +26,7 @@ public class EmployeeService {
     public List<EmployeeDTO> findAll() {
         List<Employee> list = employeeRepository.findAll();
 
-        return list.stream().map(e -> new EmployeeDTO()).collect(Collectors.toList());
+        return list.stream().map(e -> new EmployeeDTO(e)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

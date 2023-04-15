@@ -25,7 +25,7 @@ public class EnterpriseService {
     @Transactional(readOnly = true)
     public List<EnterpriseDTO> findAll() {
         List<Enterprise> list = enterpriseRepository.findAll();
-        return list.stream().map(e -> new EnterpriseDTO()).collect(Collectors.toList());
+        return list.stream().map(e -> new EnterpriseDTO(e)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

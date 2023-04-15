@@ -31,7 +31,7 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
         List<Department> list = departmentRepository.findAll();
-        return list.stream().map(d -> new DepartmentDTO()).collect(Collectors.toList());
+        return list.stream().map(d -> new DepartmentDTO(d)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
