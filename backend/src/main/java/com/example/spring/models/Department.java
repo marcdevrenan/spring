@@ -27,7 +27,7 @@ public class Department implements Serializable {
     @ManyToMany
     @JoinTable(name = "departments_employees",
             joinColumns = @JoinColumn(name = "department_id"),
-            inverseJoinColumns = @JoinColumn (name = "employee_id"))
+            inverseJoinColumns = @JoinColumn(name = "employee_id"))
     Set<Employee> employees = new HashSet<>();
 
     public Department() {

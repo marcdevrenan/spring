@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
 @Entity
 @Table(name = "enterprises")

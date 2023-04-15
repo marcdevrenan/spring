@@ -3,8 +3,6 @@ package com.example.spring.models;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "employees")
