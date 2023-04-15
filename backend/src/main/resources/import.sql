@@ -1,0 +1,12 @@
+INSERT INTO enterprises(name, created_At) VALUES ('Kojima Productions Co.', NOW());
+INSERT INTO enterprises(name, created_At) VALUES ('Valve Corporation', NOW());
+INSERT INTO enterprises(name, created_At) VALUES ('FromSoftware, Inc.', NOW());
+INSERT INTO departments(name, created_At) VALUES ('IT', NOW());
+INSERT INTO departments(name, created_At) VALUES ('Compliance', NOW());
+INSERT INTO departments(name, created_At) VALUES ('Legal', NOW());
+INSERT INTO employees(first_name, position, created_At) VALUES ('John', 'Backend Developer', NOW());
+INSERT INTO employees(first_name, position, created_At) VALUES ('Caitlyn', 'Product Manager', NOW());
+INSERT INTO employees(first_name, position, created_At) VALUES ('Scott', 'Director', NOW());
+INSERT INTO departments_employees(department_id, employee_id) VALUES (1 ,1);
+INSERT INTO departments_employees(department_id, employee_id) VALUES (1 ,2);
+INSERT INTO departments_employees(department_id, employee_id) VALUES (3 ,3);
