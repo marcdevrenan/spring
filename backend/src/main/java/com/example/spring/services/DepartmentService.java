@@ -28,12 +28,6 @@ public class DepartmentService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-//    @Transactional(readOnly = true)
-//    public Page<DepartmentDTO> findAllPaged(PageRequest pageRequest) {
-//        Page<Department> list = departmentRepository.findAll(pageRequest);
-//        return list.map(e -> new DepartmentDTO(e));
-//    }
-
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
         List<Department> list = departmentRepository.findAll();
@@ -43,21 +37,9 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public DepartmentDTO findById(Long id) {
         Optional<Department> obj = departmentRepository.findById(id);
-        Department department = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Department department = obj.orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
         return new DepartmentDTO(department, department.getEmployees());
     }
-
-//    @Transactional
-//    public DepartmentDTO insert(DepartmentDTO dto) {
-//        Department department = new Department();
-//        department.setName(dto.getName());
-//        department.setDescription(dto.getDescription());
-//        department.setPhone(dto.getPhone());
-//        department.setEnterpriseId(dto.getEnterpriseId());
-//        department = departmentRepository.save(department);
-//
-//        return new DepartmentDTO(department);
-//    }
 
     @Transactional
     public DepartmentDTO insert(DepartmentDTO dto) {
@@ -68,22 +50,6 @@ public class DepartmentService {
         return new DepartmentDTO(department);
     }
 
-//    @Transactional
-//    public DepartmentDTO update(Long id, DepartmentDTO dto) {
-//        try {
-//            Department department = departmentRepository.getReferenceById(id);
-//            department.setName(dto.getName());
-//            department.setDescription(dto.getDescription());
-//            department.setPhone(dto.getPhone());
-//            department.setEnterpriseId(dto.getEnterpriseId());
-//            department = departmentRepository.save(department);
-//
-//            return new DepartmentDTO(department);
-//        } catch (EntityNotFoundException e) {
-//            throw new ResourceNotFoundException("Entity with " + id + " not found");
-//        }
-//    }
-
     @Transactional
     public DepartmentDTO update(Long id, DepartmentDTO dto) {
         try {
@@ -93,7 +59,7 @@ public class DepartmentService {
 
             return new DepartmentDTO(department);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         }
     }
 
@@ -101,7 +67,7 @@ public class DepartmentService {
         try {
             departmentRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }

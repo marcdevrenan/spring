@@ -22,12 +22,6 @@ public class EnterpriseService {
     @Autowired
     private EnterpriseRepository enterpriseRepository;
 
-//    @Transactional(readOnly = true)
-//    public Page<EnterpriseDTO> findAllPaged(PageRequest pageRequest) {
-//        Page<Enterprise> list = enterpriseRepository.findAll(pageRequest);
-//        return list.map(e -> new EnterpriseDTO(e));
-//    }
-
     @Transactional(readOnly = true)
     public List<EnterpriseDTO> findAll() {
         List<Enterprise> list = enterpriseRepository.findAll();
@@ -37,7 +31,7 @@ public class EnterpriseService {
     @Transactional(readOnly = true)
     public EnterpriseDTO findById(Long id) {
         Optional<Enterprise> obj = enterpriseRepository.findById(id);
-        Enterprise enterprise = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Enterprise enterprise = obj.orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
         return new EnterpriseDTO(enterprise);
     }
 
@@ -63,7 +57,7 @@ public class EnterpriseService {
 
             return new EnterpriseDTO(enterprise);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         }
     }
 
@@ -71,7 +65,7 @@ public class EnterpriseService {
         try {
             enterpriseRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }

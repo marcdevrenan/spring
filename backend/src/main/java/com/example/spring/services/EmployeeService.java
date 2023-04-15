@@ -32,7 +32,7 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public EmployeeDTO findById(Long id) {
         Optional<Employee> obj = employeeRepository.findById(id);
-        Employee employee = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        Employee employee = obj.orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
 
         return new EmployeeDTO(employee);
     }
@@ -63,7 +63,7 @@ public class EmployeeService {
 
             return new EmployeeDTO(employee);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         }
     }
 
@@ -71,7 +71,7 @@ public class EmployeeService {
         try {
             employeeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with " + id + " not found");
+            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }
