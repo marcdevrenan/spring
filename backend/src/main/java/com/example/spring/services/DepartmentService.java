@@ -65,9 +65,9 @@ public class DepartmentService {
 
     public void delete(Long id) {
         try {
+            departmentRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
             departmentRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }

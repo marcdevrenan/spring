@@ -63,9 +63,9 @@ public class EnterpriseService {
 
     public void delete(Long id) {
         try {
+            enterpriseRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
             enterpriseRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }
