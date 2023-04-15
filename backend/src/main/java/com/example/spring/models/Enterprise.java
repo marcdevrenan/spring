@@ -3,6 +3,7 @@ package com.example.spring.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,11 @@ public class Enterprise implements Serializable {
     private String name;
     private String address;
     private String phone;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
     public Enterprise() {
     }
@@ -58,16 +64,21 @@ public class Enterprise implements Serializable {
         this.phone = phone;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Enterprise that = (Enterprise) o;
-        return Objects.equals(id, that.id);
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 }

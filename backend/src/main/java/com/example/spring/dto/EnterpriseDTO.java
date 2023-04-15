@@ -5,6 +5,7 @@ import com.example.spring.models.Enterprise;
 import java.io.Serializable;
 
 public class EnterpriseDTO implements Serializable {
+
     private Long id;
     private String name;
     private String address;
