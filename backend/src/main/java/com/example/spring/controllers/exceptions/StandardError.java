@@ -1,4 +1,4 @@
-package com.example.spring.resources.exceptions;
+package com.example.spring.controllers.exceptions;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package com.example.spring.resources;
+package com.example.spring.controllers;
 
 import com.example.spring.dto.EmployeeDTO;
 import com.example.spring.services.EmployeeService;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/employees")
-public class EmployeeResource {
+public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;

@@ -1,4 +1,4 @@
-package com.example.spring.resources;
+package com.example.spring.controllers;
 
 import com.example.spring.dto.DepartmentDTO;
 import com.example.spring.services.DepartmentService;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/departments")
-public class DepartmentResource {
+public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;

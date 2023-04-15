@@ -1,4 +1,4 @@
-package com.example.spring.resources;
+package com.example.spring.controllers;
 
 import com.example.spring.dto.EnterpriseDTO;
 import com.example.spring.services.EnterpriseService;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/enterprises")
-public class EnterpriseResource {
+public class EnterpriseController {
 
     @Autowired
     private EnterpriseService enterpriseService;
