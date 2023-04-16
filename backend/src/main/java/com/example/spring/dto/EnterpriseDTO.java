@@ -1,8 +1,12 @@
 package com.example.spring.dto;
 
+import com.example.spring.models.Department;
 import com.example.spring.models.Enterprise;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class EnterpriseDTO implements Serializable {
 
@@ -10,6 +14,7 @@ public class EnterpriseDTO implements Serializable {
     private String name;
     private String address;
     private String phone;
+    private List<DepartmentDTO> departments = new ArrayList<>();
 
     public EnterpriseDTO() {
     }
@@ -26,6 +31,11 @@ public class EnterpriseDTO implements Serializable {
         this.name = enterprise.getName();
         this.address = enterprise.getAddress();
         this.phone = enterprise.getPhone();
+    }
+
+    public EnterpriseDTO(Enterprise enterprise, Set<Department> departments) {
+        this(enterprise);
+        departments.forEach(d -> this.departments.add(new DepartmentDTO(d)));
     }
 
     public Long getId() {
@@ -58,5 +68,13 @@ public class EnterpriseDTO implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<DepartmentDTO> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<DepartmentDTO> departments) {
+        this.departments = departments;
     }
 }

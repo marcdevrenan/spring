@@ -18,7 +18,6 @@ public class Department implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String description;
     private String phone;
-    private Long enterpriseId;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
 
@@ -30,15 +29,20 @@ public class Department implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "employee_id"))
     Set<Employee> employees = new HashSet<>();
 
+    @ManyToOne
+    @JoinTable(name = "enterprises_departments",
+            joinColumns = @JoinColumn(name = "enterprise_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id"))
+    Enterprise enterprise = new Enterprise();
+
     public Department() {
     }
 
-    public Department(Long id, String name, String description, String phone, Long enterpriseId) {
+    public Department(Long id, String name, String description, String phone) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.phone = phone;
-        this.enterpriseId = enterpriseId;
     }
 
     public Long getId() {
@@ -73,14 +77,6 @@ public class Department implements Serializable {
         this.phone = phone;
     }
 
-    public Long getEnterpriseId() {
-        return enterpriseId;
-    }
-
-    public void setEnterpriseId(Long enterpriseId) {
-        this.enterpriseId = enterpriseId;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -91,6 +87,10 @@ public class Department implements Serializable {
 
     public Set<Employee> getEmployees() {
         return employees;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
     }
 
     @PrePersist
