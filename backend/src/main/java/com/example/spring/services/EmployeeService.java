@@ -1,14 +1,16 @@
 package com.example.spring.services;
 
+import com.example.spring.dto.DepartmentDTO;
 import com.example.spring.dto.EmployeeDTO;
+import com.example.spring.models.Department;
 import com.example.spring.models.Employee;
+import com.example.spring.repositories.DepartmentRepository;
 import com.example.spring.repositories.EmployeeRepository;
 import com.example.spring.services.exceptions.DatabaseException;
 import com.example.spring.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Transactional(readOnly = true)
     public List<EmployeeDTO> findAll() {
@@ -34,17 +38,13 @@ public class EmployeeService {
         Optional<Employee> obj = employeeRepository.findById(id);
         Employee employee = obj.orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
 
-        return new EmployeeDTO(employee);
+        return new EmployeeDTO(employee, employee.getDepartments());
     }
 
     @Transactional
     public EmployeeDTO insert(EmployeeDTO dto) {
         Employee employee = new Employee();
-        employee.setFirstName(dto.getFirstName());
-        employee.setLastName(dto.getLastName());
-        employee.setAge(dto.getAge());
-        employee.setPosition(dto.getPosition());
-        employee.setEmail(dto.getEmail());
+        copyDtoToEntity(dto, employee);
         employee = employeeRepository.save(employee);
 
         return new EmployeeDTO(employee);
@@ -54,11 +54,7 @@ public class EmployeeService {
     public EmployeeDTO update(Long id, EmployeeDTO dto) {
         try {
             Employee employee = employeeRepository.getReferenceById(id);
-            employee.setFirstName(dto.getFirstName());
-            employee.setLastName(dto.getLastName());
-            employee.setAge(dto.getAge());
-            employee.setPosition(dto.getPosition());
-            employee.setEmail(dto.getEmail());
+            copyDtoToEntity(dto, employee);
             employee = employeeRepository.save(employee);
 
             return new EmployeeDTO(employee);
@@ -74,6 +70,19 @@ public class EmployeeService {
             employeeRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
+        }
+    }
+
+    private void copyDtoToEntity(EmployeeDTO dto, Employee employee) {
+        employee.setFirstName(dto.getFirstName());
+        employee.setLastName(dto.getLastName());
+        employee.setAge(dto.getAge());
+        employee.setPosition(dto.getPosition());
+        employee.setEmail(dto.getEmail());
+        employee.getDepartments().clear();
+        for (DepartmentDTO dptDto : dto.getDepartments()) {
+            Department department = departmentRepository.getReferenceById(dptDto.getId());
+            employee.getDepartments().add(department);
         }
     }
 }
