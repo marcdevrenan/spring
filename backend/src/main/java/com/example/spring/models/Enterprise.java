@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "enterprises")
@@ -20,6 +22,11 @@ public class Enterprise implements Serializable {
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
+    @OneToMany
+    @JoinTable(name = "enterprises_departments",
+            joinColumns = @JoinColumn(name = "enterprise_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id"))
+    Set<Department> departments = new HashSet<>();
 
     public Enterprise() {
     }
@@ -69,6 +76,10 @@ public class Enterprise implements Serializable {
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
     }
 
     @PrePersist

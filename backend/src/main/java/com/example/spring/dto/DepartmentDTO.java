@@ -2,6 +2,7 @@ package com.example.spring.dto;
 
 import com.example.spring.models.Department;
 import com.example.spring.models.Employee;
+import com.example.spring.models.Enterprise;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,19 +15,17 @@ public class DepartmentDTO implements Serializable {
     private String name;
     private String description;
     private String phone;
-    private Long enterpriseId;
-
     private List<EmployeeDTO> employees = new ArrayList<>();
+    private Enterprise enterprise = new Enterprise();
 
     public DepartmentDTO() {
     }
 
-    public DepartmentDTO(Long id, String name, String description, String phone, Long enterpriseId) {
+    public DepartmentDTO(Long id, String name, String description, String phone) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.phone = phone;
-        this.enterpriseId = enterpriseId;
     }
 
     public DepartmentDTO(Department department) {
@@ -34,7 +33,6 @@ public class DepartmentDTO implements Serializable {
         this.name = department.getName();
         this.description = department.getDescription();
         this.phone = department.getPhone();
-        this.enterpriseId = department.getEnterpriseId();
     }
 
     public DepartmentDTO(Department department, Set<Employee> employees) {
@@ -74,19 +72,19 @@ public class DepartmentDTO implements Serializable {
         this.phone = phone;
     }
 
-    public Long getEnterpriseId() {
-        return enterpriseId;
-    }
-
-    public void setEnterpriseId(Long enterpriseId) {
-        this.enterpriseId = enterpriseId;
-    }
-
     public List<EmployeeDTO> getEmployees() {
         return employees;
     }
 
     public void setEmployees(List<EmployeeDTO> employees) {
         this.employees = employees;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
     }
 }

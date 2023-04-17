@@ -11,7 +11,6 @@ import com.example.spring.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ public class DepartmentService {
     @Transactional(readOnly = true)
     public List<DepartmentDTO> findAll() {
         List<Department> list = departmentRepository.findAll();
+
         return list.stream().map(d -> new DepartmentDTO(d)).collect(Collectors.toList());
     }
 
@@ -38,6 +38,7 @@ public class DepartmentService {
     public DepartmentDTO findById(Long id) {
         Optional<Department> obj = departmentRepository.findById(id);
         Department department = obj.orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
+
         return new DepartmentDTO(department, department.getEmployees());
     }
 
@@ -65,9 +66,9 @@ public class DepartmentService {
 
     public void delete(Long id) {
         try {
+            departmentRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Entity with id " + id + " not found"));
             departmentRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Entity with id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Data integrity violation");
         }

@@ -3,6 +3,8 @@ package com.example.spring.models;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -21,6 +23,8 @@ public class Employee {
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
+    @ManyToMany(mappedBy = "employees")
+    Set<Department> departments = new HashSet<>();
 
     public Employee() {
     }
@@ -88,6 +92,10 @@ public class Employee {
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
     }
 
     @PrePersist
