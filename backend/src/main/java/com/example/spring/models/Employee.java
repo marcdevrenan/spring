@@ -23,10 +23,7 @@ public class Employee {
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
-    @ManyToMany
-    @JoinTable(name = "departments_employees",
-            joinColumns = @JoinColumn(name = "department_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"))
+    @ManyToMany(mappedBy = "employees")
     Set<Department> departments = new HashSet<>();
 
     public Employee() {
